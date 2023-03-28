@@ -1,16 +1,15 @@
 import Autocomplete from '@mui/material/Autocomplete';
 import React, {ChangeEvent} from 'react';
-import {InitialConfigStateType} from '../store/configReducer';
 import {TextField} from '@mui/material';
 
 
 type SelectorPropsType = {
-    data: InitialConfigStateType[]
+
     onSelectValue: (value: string)=> void
 }
 
 
-const Selector: React.FC<SelectorPropsType> = ({data, onSelectValue}) => {
+const Selector: React.FC<SelectorPropsType> = ({ onSelectValue}) => {
     const onBlurHandler = (e: ChangeEvent<HTMLSelectElement>) => {
         // onSelectValue(e.currentTarget.value)
         console.log(e.currentTarget.value)
@@ -32,15 +31,15 @@ const Selector: React.FC<SelectorPropsType> = ({data, onSelectValue}) => {
             {/*    sx={{ width: 300 }}*/}
             {/*    renderInput={(params) => <TextField {...params} label="Choose" />}*/}
             {/*/>*/}
-            <select onChange={onBlurHandler} >
-                {data.map(i=> {
-                    if(i.type === 'frame') {
-                        return (
-                            <option  value={i.name} >{i.name}</option>
-                        )
-                    }
-                })}
-            </select>
+            {/*<select onChange={onBlurHandler} >*/}
+            {/*    {data.map(i=> {*/}
+            {/*        if(i.type === 'frame') {*/}
+            {/*            return (*/}
+            {/*                <option  value={i.name} >{i.name}</option>*/}
+            {/*            )*/}
+            {/*        }*/}
+            {/*    })}*/}
+            {/*</select>*/}
         </div>
     );
 };

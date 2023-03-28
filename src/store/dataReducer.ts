@@ -1,3 +1,6 @@
+import { Dispatch } from "redux"
+import {configAIP, dataAPI} from '../api/api';
+import {setConfig} from './configReducer';
 
 
 export type InitialDataStateType = {
@@ -6,16 +9,19 @@ export type InitialDataStateType = {
     material?: string
     unit: string
     width?: number
+    thickness?: number
     price: number
 }
 
-const initialstate: InitialDataStateType[] = [
+const initialstate: InitialDataStateType[] =
+    [
     {
         type: "list",
         name: "Лист-1 0.5 ширина 1.8м",
         material: "plastic",
         unit: "м2",
         width: 1.8,
+        thickness: 0.5,
         price: 12
     },
     {
@@ -24,6 +30,7 @@ const initialstate: InitialDataStateType[] = [
         material: "plastic",
         unit: "м2",
         width: 1.5,
+        thickness: 0.5,
         price: 15
     },
     {
@@ -32,6 +39,7 @@ const initialstate: InitialDataStateType[] = [
         material: "plastic",
         unit: "м2",
         width: 1.2,
+        thickness: 0.5,
         price: 15
     },
     {
@@ -40,6 +48,7 @@ const initialstate: InitialDataStateType[] = [
         material: "plastic",
         unit: "м2",
         width: 1.8,
+        thickness: 0.7,
         price: 17
     },
     {
@@ -48,6 +57,7 @@ const initialstate: InitialDataStateType[] = [
         material: "plastic",
         unit: "м2",
         width: 1.5,
+        thickness: 0.7,
         price: 20
     },
     {
@@ -56,6 +66,7 @@ const initialstate: InitialDataStateType[] = [
         material: "plastic",
         unit: "м2",
         width: 1.2,
+        thickness: 0.7,
         price: 22
     },
 
@@ -65,6 +76,7 @@ const initialstate: InitialDataStateType[] = [
         material: "metal",
         unit: "м2",
         width: 1,
+        thickness: 0.3,
         price: 25
     },
     {
@@ -73,6 +85,7 @@ const initialstate: InitialDataStateType[] = [
         material: "metal",
         unit: "м2",
         width: 0.75,
+        thickness: 0.3,
         price: 20
     },
     {
@@ -81,6 +94,7 @@ const initialstate: InitialDataStateType[] = [
         material: "metal",
         unit: "м2",
         width: 0.5,
+        thickness: 0.3,
         price: 15
     },
     {
@@ -89,6 +103,7 @@ const initialstate: InitialDataStateType[] = [
         material: "metal",
         unit: "м2",
         width: 1,
+        thickness: 0.5,
         price: 30
     },
     {
@@ -97,6 +112,7 @@ const initialstate: InitialDataStateType[] = [
         material: "metal",
         unit: "м2",
         width: 0.75,
+        thickness: 0.5,
         price: 26
     },
     {
@@ -105,6 +121,7 @@ const initialstate: InitialDataStateType[] = [
         material: "metal",
         unit: "м2",
         width: 0.5,
+        thickness: 0.5,
         price: 22
     },
 
@@ -131,10 +148,32 @@ const initialstate: InitialDataStateType[] = [
     }
 ]
 
-const dataReducer = (state = initialstate, action: any): InitialDataStateType[] => {
+export const dataReducer = (state = initialstate, action: any): InitialDataStateType[] => {
     switch (action.type) {
-
+        case 'GET_PRICE':
+            return state
         default: return state
     }
 }
 
+//actions
+export const getPrice = (data: InitialDataStateType[]) => ({
+    type: 'GET_PRICE',
+    payload: {
+        data
+    }
+})
+
+//thunk
+
+export const getPriceThunk = (material: string) => async(dispatch: Dispatch) => {
+    try{
+        let response = await dataAPI.getMaterial(material)
+        dispatch(getPrice(response.data))
+        console.log(response.data)
+    }
+    catch (e) {
+
+    }
+
+}
