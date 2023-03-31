@@ -1,6 +1,6 @@
 import React, {ChangeEvent} from 'react';
 import {useForm} from 'react-hook-form';
- import { productDimensions, numberOfSheets, numberOfScrews, pipeQuantity } from '../utils/frame';
+ import {productDimensions, numberOfSheets, numberOfScrews, pipeQuantity, sumSheets} from '../utils/frame';
 import {useAppDispatch, useAppSelector} from '../store/store';
 import {getPriceThunk, InitialDataStateType} from '../store/dataReducer';
 import {getConfig, InitialStateType} from '../store/configReducer';
@@ -15,18 +15,20 @@ export const DataInput = () => {
     const data = useAppSelector<InitialDataStateType[]>(state=> state.data)
     const [materiallFilter, setMateriallFilter] = React.useState('')
     const { register, handleSubmit } = useForm()
-    const onSubmit = (data: any) => {
-        console.log('data: ', data)
-        productDimensions(data.roofWidth, data.roofLength)
-        numberOfSheets(data.roofWidth, data.roofLength, data.sheetWidth, )
-        numberOfScrews(data.roofWidth, data.roofLength, materiallFilter, config)
-        pipeQuantity(data.roofWidth, data.roofLength, 1.2, 0.3)
+    const onSubmit = (dataForm: any) => {
+        // console.log('data: ', dataForm)
+        productDimensions(dataForm.roofWidth, dataForm.roofLength)
+        numberOfSheets(dataForm.roofWidth, dataForm.roofLength, dataForm.sheetWidth)
+        sumSheets(data, dispatch)
+
+        numberOfScrews(data, dataForm.roofWidth, dataForm.roofLength, materiallFilter, dispatch)
+        pipeQuantity(data, dataForm.roofWidth, dataForm.roofLength, 1.2, 0.3, dispatch)
     }
     const onSelector = (e: ChangeEvent<HTMLSelectElement>) => {
+        // dispatch()
         setMateriallFilter(e.currentTarget.value)
-        dispatch(getPriceThunk(e.currentTarget.value))
     }
-    console.log(materiallFilter)
+// console.log(materiallFilter)
 
 
 
@@ -34,30 +36,34 @@ export const DataInput = () => {
         dispatch(getConfig())
     },[])
 
-    // if (config?.length <= 0){
-    //     return <div>Error</div>
-    // }
-
-
+    let d
+    let valueSheet = data.map(i=> {
+        if(i.material === materiallFilter) {
+            d = i.width
+            return (
+                <option  value={i. width} >{i. width}</option>
+            )}
+    })
+// console.log( d)
     return (
-        <div className={s.container}>
+        <div>
             <div>
                 <label>Выберите тип покрытия:   </label>
                 <select onChange={onSelector}>
                     <option  value={'plastic'} >Пластик</option>
                     <option  value={'metal'} >Металл</option>
+                    {/* {arr.map(i=> {
+           return (
+<option  value={i} >{i}</option>
+           )
+       })} */}
                 </select>
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div>
                     <label>Выберите ширину листа:   </label>
-                    <select  {...register('sheetWidth')}>
-                        {data.map(i=> {
-                            if(i.material === materiallFilter) {
-                                return (
-                                    <option  value={i. width} >{i. width}</option>
-                                )}
-                        })}
+                    <select  {...register('sheetWidth')} >
+                        {valueSheet}
                     </select>
                 </div>
                 <div>
@@ -66,14 +72,14 @@ export const DataInput = () => {
                         {data.map(i=> {
                             if(i.material === materiallFilter) {
                                 return (
-                                    <option  value={i.thickness} >{i.thickness}</option>
+                                    <option   value={i.thickness} >{i.thickness}</option>
                                 )}
                         })}
                     </select>
                 </div>
                 <div>
                     <label>Выберети тип каркаса:   </label>
-                    <select  {...register('frame')}>
+                    <select  {...register('frame')} >
                         {config.map(i=> {
                             if(i.type === 'frame') {
                                 return (
@@ -99,8 +105,8 @@ export const DataInput = () => {
                     <label>Ширина  </label>
                     <input
                         type="number"
-                        min={config[1]?.min}
-                        max={config[1]?.max}
+                        // min={config[1].min}
+                        // max={config[1].max}
                         {...register('roofWidth')}
                     />
                 </div>
@@ -108,8 +114,9 @@ export const DataInput = () => {
                     <label>Длинна </label>
                     <input
                         type="number"
-                        min={config[0]?.min}
-                        max={config[0]?.max}
+                        //value= {config[0].min}
+                        // min={config[0].min}
+                        // max={config[0].max}
                         {...register('roofLength')}
                     />
                 </div>

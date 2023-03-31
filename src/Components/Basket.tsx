@@ -1,31 +1,27 @@
 import {useAppSelector} from '../store/store';
 import {initialTotalStateType} from '../store/totalReducer';
+import { Table } from './Table';
+import {InitialTableStateType} from '../store/table-reducer';
 
 
 const Basket = () => {
-    const total = useAppSelector<initialTotalStateType[]>(state=>state.total)
+    // const total = useAppSelector<initialTotalStateType[]>(state=>state.total)
+    // const table = useAppSelector<initialTotalStateType>(state=>state.table)
+    const total = useAppSelector<initialTotalStateType>(state=>state.total)
+    const table = useAppSelector<InitialTableStateType[]>(state=>state.table)
     return (
         <div>
             <h1>Basket</h1>
-            <table >
-                <thead>
-                <tr>
-                    <th>Наименование</th>
-                    <th>ед.</th>
-                    <th>кол-во</th>
-                    <th>сумма</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>{total[0].name}</td>
-                    <td>Reeves</td>
-                    <td>67439</td>
-                    <td>10/18/1985</td>
-                </tr>
-                </tbody>
-            </table>
-            Итого:
+            {table.map(i=> {
+                let allTotal = total[i.tableId]
+                return (
+                    <Table
+                        table={i}
+                        total={allTotal}
+                    />
+                )
+            })}
+
         </div>
     );
 };
