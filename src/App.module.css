@@ -1,4 +1,10 @@
-.App {
+.app {
+  margin: 0 auto;
+  width: 90%;
+}
+
+
+.container {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -6,9 +12,6 @@
   align-content: center;
 }
 
-/*.band {*/
-/*  width: 100%;*/
-/*}*/
 
 
 
