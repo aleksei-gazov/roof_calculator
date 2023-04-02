@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/roof_calculator/static/css/main.10171337.css",
+    "main.js": "/roof_calculator/static/js/main.45830960.js",
+    "static/js/787.f56b2b68.chunk.js": "/roof_calculator/static/js/787.f56b2b68.chunk.js",
+    "index.html": "/roof_calculator/index.html",
+    "main.10171337.css.map": "/roof_calculator/static/css/main.10171337.css.map",
+    "main.45830960.js.map": "/roof_calculator/static/js/main.45830960.js.map",
+    "787.f56b2b68.chunk.js.map": "/roof_calculator/static/js/787.f56b2b68.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.10171337.css",
+    "static/js/main.45830960.js"
+  ]
+}
